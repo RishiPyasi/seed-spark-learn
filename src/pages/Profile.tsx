@@ -8,15 +8,29 @@ import { Avatar as AvatarType, User, Pet } from '@/types';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useEcoPoints } from '@/hooks/useEcoPoints';
 import { Settings, Star, Trophy, Users, Heart } from 'lucide-react';
-import petPlantImage from '@/assets/pet-plant.png';
+import { AvatarBuilder } from '@/components/AvatarBuilder';
+import { PetCard } from '@/components/PetCard';
 
 const AVATAR_OPTIONS = {
   skinTones: ['#F5DEB3', '#DEB887', '#D2B48C', '#CD853F', '#8B4513', '#654321'],
-  hairStyles: ['short', 'long', 'curly', 'braids', 'bald', 'ponytail'],
-  hairColors: ['#8B4513', '#000000', '#FFD700', '#FF4500', '#4B0082', '#008000'],
-  eyeColors: ['#8B4513', '#000000', '#0000FF', '#008000', '#808080', '#FFA500'],
-  outfits: ['casual', 'formal', 'eco-warrior', 'scientist', 'gardener', 'explorer'],
-  accessories: ['glasses', 'hat', 'earrings', 'necklace', 'backpack', 'watch']
+  hairStyles: ['short', 'long', 'curly', 'braids', 'bald', 'ponytail', 'afro', 'mohawk'],
+  hairColors: ['#8B4513', '#000000', '#FFD700', '#FF4500', '#4B0082', '#008000', '#FF69B4', '#FF0000'],
+  eyeColors: ['#8B4513', '#000000', '#0000FF', '#008000', '#808080', '#FFA500', '#800080', '#006400'],
+  eyeShapes: ['round', 'almond', 'hooded', 'monolid', 'upturned', 'downturned'],
+  faceShapes: ['oval', 'round', 'square', 'heart', 'diamond', 'oblong'],
+  outfits: ['casual', 'formal', 'eco-warrior', 'scientist', 'gardener', 'explorer', 'student', 'teacher'],
+  accessories: ['glasses', 'hat', 'earrings', 'necklace', 'backpack', 'watch', 'scarf', 'none'],
+  facialHair: ['none', 'mustache', 'beard', 'goatee', 'stubble'],
+  expressions: ['happy', 'neutral', 'excited', 'focused', 'friendly', 'determined']
+};
+
+const PET_TYPES = {
+  dog: { name: 'Dog', emoji: '🐕', skills: ['Loyalty', 'Energy Boost'], personality: 'playful' },
+  cat: { name: 'Cat', emoji: '🐱', skills: ['Curiosity', 'Calm Mind'], personality: 'calm' },
+  horse: { name: 'Horse', emoji: '🐴', skills: ['Strength', 'Endurance'], personality: 'gentle' },
+  duck: { name: 'Duck', emoji: '🦆', skills: ['Swimming', 'Adaptability'], personality: 'energetic' },
+  cow: { name: 'Cow', emoji: '🐄', skills: ['Patience', 'Sustainability'], personality: 'gentle' },
+  rabbit: { name: 'Rabbit', emoji: '🐰', skills: ['Speed', 'Agility'], personality: 'energetic' }
 };
 
 const ACHIEVEMENTS = [
@@ -38,8 +52,12 @@ export const Profile = () => {
       hairStyle: 'short',
       hairColor: AVATAR_OPTIONS.hairColors[1],
       eyeColor: AVATAR_OPTIONS.eyeColors[2],
+      eyeShape: 'round',
+      faceShape: 'oval',
       outfit: 'eco-warrior',
-      accessories: []
+      accessories: [],
+      facialHair: 'none',
+      expression: 'happy'
     },
     role: 'student',
     ecoPoints: 250,
@@ -52,14 +70,17 @@ export const Profile = () => {
   const [pets, setPets] = useLocalStorage<Pet[]>('eco-pets', [
     {
       id: '1',
-      name: 'Sprouty',
-      type: 'plant',
+      name: 'Buddy',
+      type: 'dog',
       level: 2,
       happiness: 85,
       energy: 70,
+      hunger: 60,
       ecoPointsContributed: user.ecoPoints,
       lastFed: new Date(),
-      skills: ['Growth Boost', 'Wisdom Share']
+      lastPlayed: new Date(),
+      skills: ['Loyalty', 'Energy Boost'],
+      personality: 'playful'
     }
   ]);
 
@@ -93,11 +114,26 @@ export const Profile = () => {
             ...pet, 
             happiness: Math.min(100, pet.happiness + 20),
             energy: Math.min(100, pet.energy + 15),
+            hunger: Math.max(0, pet.hunger - 25),
             lastFed: new Date()
           }
         : pet
     ));
     addPoints(5, 'Taking care of your pet');
+  };
+
+  const playWithPet = (petId: string) => {
+    setPets(prev => prev.map(pet => 
+      pet.id === petId 
+        ? { 
+            ...pet, 
+            happiness: Math.min(100, pet.happiness + 15),
+            energy: Math.max(0, pet.energy - 10),
+            lastPlayed: new Date()
+          }
+        : pet
+    ));
+    addPoints(3, 'Playing with your pet');
   };
 
   return (
@@ -216,13 +252,13 @@ export const Profile = () => {
                   {editingAvatar ? 'Done' : 'Edit'}
                 </Button>
               </CardTitle>
-              <CardDescription>Customize your avatar to express your eco-personality!</CardDescription>
+              <CardDescription>Customize your human-like avatar to express your personality!</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="text-center">
                 <Avatar className="h-32 w-32 mx-auto border-4 border-eco-leaf">
                   <AvatarFallback 
-                    className="text-4xl"
+                    className="text-4xl font-bold"
                     style={{ 
                       backgroundColor: editingAvatar ? tempAvatar.skinTone : user.avatar.skinTone 
                     }}
@@ -230,131 +266,56 @@ export const Profile = () => {
                     {user.name.slice(0, 2)}
                   </AvatarFallback>
                 </Avatar>
+                <div className="mt-2 text-sm text-muted-foreground">
+                  {editingAvatar ? tempAvatar.expression : user.avatar.expression} • {editingAvatar ? tempAvatar.faceShape : user.avatar.faceShape} face
+                </div>
               </div>
 
               {editingAvatar && (
-                <div className="space-y-4">
-                  <div>
-                    <h4 className="font-medium mb-2">Skin Tone</h4>
-                    <div className="flex gap-2 flex-wrap">
-                      {AVATAR_OPTIONS.skinTones.map((tone, index) => (
-                        <button
-                          key={index}
-                          className={`w-8 h-8 rounded-full border-2 ${
-                            tempAvatar.skinTone === tone ? 'border-eco-leaf' : 'border-gray-300'
-                          }`}
-                          style={{ backgroundColor: tone }}
-                          onClick={() => setTempAvatar(prev => ({ ...prev, skinTone: tone }))}
-                        />
-                      ))}
-                    </div>
-                  </div>
+                <AvatarBuilder 
+                  avatar={tempAvatar}
+                  onChange={setTempAvatar}
+                />
+              )}
 
-                  <div>
-                    <h4 className="font-medium mb-2">Hair Style</h4>
-                    <div className="grid grid-cols-3 gap-2">
-                      {AVATAR_OPTIONS.hairStyles.map((style) => (
-                        <Button
-                          key={style}
-                          size="sm"
-                          variant={tempAvatar.hairStyle === style ? "default" : "outline"}
-                          onClick={() => setTempAvatar(prev => ({ ...prev, hairStyle: style }))}
-                        >
-                          {style}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <h4 className="font-medium mb-2">Outfit</h4>
-                    <div className="grid grid-cols-2 gap-2">
-                      {AVATAR_OPTIONS.outfits.map((outfit) => (
-                        <Button
-                          key={outfit}
-                          size="sm"
-                          variant={tempAvatar.outfit === outfit ? "default" : "outline"}
-                          onClick={() => setTempAvatar(prev => ({ ...prev, outfit }))}
-                        >
-                          {outfit}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <Button onClick={saveAvatar} className="w-full">
-                    💾 Save Avatar (+10 points)
-                  </Button>
-                </div>
+              {editingAvatar && (
+                <Button onClick={saveAvatar} className="w-full">
+                  💾 Save Avatar (+10 points)
+                </Button>
               )}
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="pets" className="space-y-4">
+          <div className="text-center mb-4">
+            <h2 className="text-xl font-semibold mb-2">Your Animal Companions</h2>
+            <p className="text-muted-foreground">Take care of your pets to earn eco-points and build friendship!</p>
+          </div>
+          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {pets.map((pet) => (
-              <Card key={pet.id} className="plant-container">
-                <CardHeader className="text-center">
-                  <div className="mx-auto mb-2">
-                    <img 
-                      src={petPlantImage} 
-                      alt={pet.name}
-                      className="w-20 h-20 object-contain animate-bounce-soft"
-                    />
-                  </div>
-                  <CardTitle className="flex items-center justify-center gap-2">
-                    {pet.name}
-                    <Badge variant="outline">Level {pet.level}</Badge>
-                  </CardTitle>
-                  <CardDescription>Your loyal eco-companion</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="flex items-center gap-1">
-                        <Heart className="h-4 w-4 text-red-500" />
-                        Happiness
-                      </span>
-                      <span>{pet.happiness}%</span>
-                    </div>
-                    <div className="w-full bg-muted rounded-full h-2">
-                      <div 
-                        className="bg-red-500 h-2 rounded-full transition-all"
-                        style={{ width: `${pet.happiness}%` }}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Energy</span>
-                      <span>{pet.energy}%</span>
-                    </div>
-                    <div className="w-full bg-muted rounded-full h-2">
-                      <div 
-                        className="nature-gradient h-2 rounded-full transition-all"
-                        style={{ width: `${pet.energy}%` }}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="text-center">
-                    <div className="text-sm text-muted-foreground mb-2">
-                      Skills: {pet.skills.join(', ')}
-                    </div>
-                    <Button 
-                      onClick={() => feedPet(pet.id)}
-                      disabled={pet.happiness >= 90}
-                      size="sm"
-                    >
-                      🍃 Feed Pet (+5 points)
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+              <PetCard
+                key={pet.id}
+                pet={pet}
+                onFeed={feedPet}
+                onPlay={playWithPet}
+              />
             ))}
           </div>
+
+          {pets.length === 0 && (
+            <Card className="eco-card">
+              <CardContent className="text-center p-8">
+                <div className="text-6xl mb-4">🐾</div>
+                <h3 className="text-lg font-semibold mb-2">No pets yet!</h3>
+                <p className="text-muted-foreground mb-4">
+                  Visit the shop to adopt your first animal companion
+                </p>
+                <Button>Visit Shop</Button>
+              </CardContent>
+            </Card>
+          )}
         </TabsContent>
 
         <TabsContent value="achievements" className="space-y-4">

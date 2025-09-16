@@ -20,8 +20,12 @@ export interface Avatar {
   hairStyle: string;
   hairColor: string;
   eyeColor: string;
+  eyeShape: string;
+  faceShape: string;
   outfit: string;
   accessories: string[];
+  facialHair: string;
+  expression: string;
 }
 
 export interface Plant {
@@ -40,13 +44,16 @@ export interface Plant {
 export interface Pet {
   id: string;
   name: string;
-  type: 'plant' | 'bird' | 'butterfly' | 'bee';
+  type: 'dog' | 'cat' | 'horse' | 'duck' | 'cow' | 'rabbit';
   level: number;
   happiness: number; // 0-100
   energy: number; // 0-100
+  hunger: number; // 0-100
   ecoPointsContributed: number;
   lastFed: Date;
+  lastPlayed: Date;
   skills: string[];
+  personality: 'playful' | 'calm' | 'energetic' | 'gentle';
 }
 
 export interface ShopItem {

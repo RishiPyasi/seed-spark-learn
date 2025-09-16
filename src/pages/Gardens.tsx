@@ -6,8 +6,9 @@ import { Badge } from '@/components/ui/badge';
 import { Plant } from '@/types';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useEcoPoints } from '@/hooks/useEcoPoints';
-import { Droplets, Sun, Sprout, Star } from 'lucide-react';
+import { Droplets, Sun, Sprout, Star, TreePine, Flower } from 'lucide-react';
 import { toast } from 'sonner';
+import garden3dImage from '@/assets/garden-3d.png';
 
 const PLANT_SPECIES = [
   { name: 'Sunflower', growthTime: 7, waterNeeds: 'high', ecoPoints: 15 },
@@ -29,7 +30,11 @@ const GROWTH_STAGES = [
 export const Gardens = () => {
   const [plants, setPlantsStorage] = useLocalStorage<Plant[]>('eco-plants', []);
   const [selectedSpecies, setSelectedSpecies] = useState(PLANT_SPECIES[0]);
+  const [selectedPlantId, setSelectedPlantId] = useState<string | null>(null);
   const { ecoPoints, addPoints, spendPoints } = useEcoPoints(150);
+
+  // 3D Garden View State
+  const [view3D, setView3D] = useState(false);
 
   const plantSeed = () => {
     const cost = 10;
