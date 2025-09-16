@@ -258,12 +258,34 @@ export const Profile = () => {
               <div className="text-center">
                 <Avatar className="h-32 w-32 mx-auto border-4 border-eco-leaf">
                   <AvatarFallback 
-                    className="text-4xl font-bold"
+                    className="text-4xl relative overflow-hidden"
                     style={{ 
                       backgroundColor: editingAvatar ? tempAvatar.skinTone : user.avatar.skinTone 
                     }}
                   >
-                    {user.name.slice(0, 2)}
+                    {/* Simple human avatar representation */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="relative">
+                        {/* Face */}
+                        <div 
+                          className="w-20 h-24 rounded-full relative"
+                          style={{ backgroundColor: editingAvatar ? tempAvatar.skinTone : user.avatar.skinTone }}
+                        >
+                          {/* Eyes */}
+                          <div className="absolute top-6 left-3 w-2 h-2 rounded-full" 
+                               style={{ backgroundColor: editingAvatar ? tempAvatar.eyeColor : user.avatar.eyeColor }} />
+                          <div className="absolute top-6 right-3 w-2 h-2 rounded-full" 
+                               style={{ backgroundColor: editingAvatar ? tempAvatar.eyeColor : user.avatar.eyeColor }} />
+                          {/* Hair */}
+                          <div 
+                            className="absolute -top-2 left-1 right-1 h-8 rounded-t-full"
+                            style={{ backgroundColor: editingAvatar ? tempAvatar.hairColor : user.avatar.hairColor }}
+                          />
+                          {/* Expression mouth */}
+                          <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 w-3 h-1 bg-white/30 rounded-full" />
+                        </div>
+                      </div>
+                    </div>
                   </AvatarFallback>
                 </Avatar>
                 <div className="mt-2 text-sm text-muted-foreground">
