@@ -19,7 +19,12 @@ import { Link } from 'react-router-dom';
 import petDogImage from '@/assets/pet-dog.png';
 import petCatImage from '@/assets/pet-cat.png';
 import petPlantImage from '@/assets/pet-plant.png';
+import petDuckImage from '@/assets/pet-duck.png';
+import petHorseImage from '@/assets/pet-horse.png';
 import garden3dImage from '@/assets/garden-3d.png';
+import { ComingSoonDialog } from '@/components/ComingSoonDialog';
+import { CommunityPopup } from '@/components/CommunityPopup';
+import { ImpactPopup } from '@/components/ImpactPopup';
 
 interface LeaderboardUser {
   id: string;
@@ -50,14 +55,18 @@ const StudentDashboard = () => {
   const [pointAnimation, setPointAnimation] = useState(false);
   const [streakAnimation, setStreakAnimation] = useState(false);
   
-  // Mock pet data
-  const [virtualPet] = useLocalStorage<VirtualPet>('virtual-pet', {
-    name: 'Buddy',
-    type: 'dog',
-    hunger: 75,
-    joy: 85,
-    image: petDogImage
-  });
+  // Pet data with multiple types
+  const [virtualPets, setVirtualPets] = useLocalStorage<VirtualPet[]>('virtual-pets', [
+    {
+      name: 'Buddy',
+      type: 'dog',
+      hunger: 75,
+      joy: 85,
+      image: petDogImage
+    }
+  ]);
+  
+  const currentPet = virtualPets[0] || virtualPets[0];
 
   // Mock leaderboard data
   const [leaderboard] = useState<LeaderboardUser[]>([
@@ -89,20 +98,20 @@ const StudentDashboard = () => {
     ]
   };
 
-  // Quick action items
+  // Quick action items with special handlers
   const quickActions = [
-    { name: 'Challenges', icon: Target, color: 'text-eco-growth', href: '/challenges' },
-    { name: 'Quizzes', icon: BookOpen, color: 'text-eco-leaf', href: '/quizzes' },
-    { name: 'Shop', icon: ShoppingBag, color: 'text-eco-earth', href: '/shop' },
-    { name: 'Journal', icon: FileText, color: 'text-eco-growth', href: '/journal' },
-    { name: 'Discussion', icon: MessageCircle, color: 'text-eco-leaf', href: '/discussion' },
-    { name: 'Goals', icon: Target, color: 'text-eco-earth', href: '/goals' },
-    { name: 'Lessons', icon: BookOpen, color: 'text-eco-growth', href: '/lessons' },
-    { name: 'Impact Calculator', icon: Calculator, color: 'text-eco-leaf', href: '/impact' },
-    { name: 'Badges', icon: Award, color: 'text-eco-earth', href: '/badges' },
-    { name: 'Heatmap', icon: Thermometer, color: 'text-eco-growth', href: '/heatmap' },
-    { name: 'Spin Wheel', icon: Gamepad2, color: 'text-eco-leaf', href: '/spin' },
-    { name: 'Events', icon: Calendar, color: 'text-eco-earth', href: '/events' }
+    { name: 'Challenges', icon: Target, color: 'text-eco-growth', href: '/challenges', special: false },
+    { name: 'Quizzes', icon: BookOpen, color: 'text-eco-leaf', href: '/quiz', special: false },
+    { name: 'Shop', icon: ShoppingBag, color: 'text-eco-earth', href: '/shop', special: false },
+    { name: 'Journal', icon: FileText, color: 'text-eco-growth', href: '/journal', special: 'coming-soon' },
+    { name: 'Discussion', icon: MessageCircle, color: 'text-eco-leaf', href: '/discussion', special: 'community' },
+    { name: 'Habits', icon: Target, color: 'text-eco-earth', href: '/habits', special: false },
+    { name: 'Lessons', icon: BookOpen, color: 'text-eco-growth', href: '/lessons', special: 'coming-soon' },
+    { name: 'Impact Calculator', icon: Calculator, color: 'text-eco-leaf', href: '/impact', special: 'impact' },
+    { name: 'Badges', icon: Award, color: 'text-eco-earth', href: '/badges', special: 'coming-soon' },
+    { name: 'Heatmap', icon: Thermometer, color: 'text-eco-growth', href: '/heatmap', special: 'coming-soon' },
+    { name: 'Spin Wheel', icon: Gamepad2, color: 'text-eco-leaf', href: '/spin', special: 'coming-soon' },
+    { name: 'Events', icon: Calendar, color: 'text-eco-earth', href: '/events', special: 'coming-soon' }
   ];
 
   // Trigger animations on mount
@@ -119,6 +128,8 @@ const StudentDashboard = () => {
     switch (type) {
       case 'cat': return petCatImage;
       case 'plant': return petPlantImage;
+      case 'duck': return petDuckImage;
+      case 'horse': return petHorseImage;
       default: return petDogImage;
     }
   };
@@ -202,55 +213,62 @@ const StudentDashboard = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Heart className="w-5 h-5 text-red-500" />
-                Virtual Pet - {virtualPet.name}
+                Virtual Pet - {currentPet?.name}
               </CardTitle>
               <CardDescription>Take care of your eco-companion</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="text-center">
-                <img 
-                  src={getPetImage(virtualPet.type)} 
-                  alt={virtualPet.name}
-                  className="w-20 h-20 mx-auto animate-bounce-soft"
-                />
-              </div>
-              
-              <div className="space-y-3">
-                <div>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span>Hunger</span>
-                    <span>{virtualPet.hunger}%</span>
+              {currentPet && (
+                <>
+                  <Link to="/pets" className="block">
+                    <div className="text-center hover:scale-105 transition-transform cursor-pointer">
+                      <img 
+                        src={getPetImage(currentPet.type)} 
+                        alt={currentPet.name}
+                        className="w-20 h-20 mx-auto animate-bounce-soft"
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">Click to manage pets</p>
+                    </div>
+                  </Link>
+                  
+                  <div className="space-y-3">
+                    <div>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span>Hunger</span>
+                        <span>{currentPet.hunger}%</span>
+                      </div>
+                      <Progress value={currentPet.hunger} className="h-2" />
+                    </div>
+                    
+                    <div>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span>Joy</span>
+                        <span>{currentPet.joy}%</span>
+                      </div>
+                      <Progress value={currentPet.joy} className="h-2" />
+                    </div>
                   </div>
-                  <Progress value={virtualPet.hunger} className="h-2" />
-                </div>
-                
-                <div>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span>Joy</span>
-                    <span>{virtualPet.joy}%</span>
-                  </div>
-                  <Progress value={virtualPet.joy} className="h-2" />
-                </div>
-              </div>
 
-              <div className="flex gap-2">
-                <Button 
-                  size="sm" 
-                  variant="outline" 
-                  className="flex-1"
-                  onClick={() => addPoints(5, `Fed ${virtualPet.name}`)}
-                >
-                  🍖 Feed
-                </Button>
-                <Button 
-                  size="sm" 
-                  variant="outline" 
-                  className="flex-1"
-                  onClick={() => addPoints(5, `Played with ${virtualPet.name}`)}
-                >
-                  🎾 Play
-                </Button>
-              </div>
+                  <div className="flex gap-2">
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="flex-1"
+                      onClick={() => addPoints(5, `Fed ${currentPet.name}`)}
+                    >
+                      🍖 Feed
+                    </Button>
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="flex-1"
+                      onClick={() => addPoints(5, `Played with ${currentPet.name}`)}
+                    >
+                      🎾 Play
+                    </Button>
+                  </div>
+                </>
+              )}
             </CardContent>
           </Card>
 
@@ -299,15 +317,20 @@ const StudentDashboard = () => {
                         </div>
                       </div>
                     </div>
-                    <Button 
-                      size="sm" 
-                      className="w-full" 
-                      variant="outline"
-                      onClick={() => addPoints(10, 'Garden maintenance')}
+                    <ComingSoonDialog
+                      title="Dynamic Gardens"
+                      description="Watch plants grow in real-time with your classmates and school!"
+                      feature="interactive 3D gardens with real plant growth simulation"
                     >
-                      <Leaf className="w-4 h-4 mr-1" />
-                      Water Plants
-                    </Button>
+                      <Button 
+                        size="sm" 
+                        className="w-full" 
+                        variant="outline"
+                      >
+                        <Leaf className="w-4 h-4 mr-1" />
+                        Water Plants
+                      </Button>
+                    </ComingSoonDialog>
                   </TabsContent>
                 ))}
               </Tabs>
@@ -323,22 +346,45 @@ const StudentDashboard = () => {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
-              {quickActions.map((action, index) => (
-                <Button
-                  key={index}
-                  variant="outline"
-                  className="h-auto p-4 flex flex-col gap-2 hover-scale transition-all duration-200"
-                  asChild
-                >
-                  <Link to={action.href}>
-                    <action.icon className={`w-6 h-6 ${action.color}`} />
-                    <span className="text-xs font-medium text-center leading-tight">
-                      {action.name}
-                    </span>
-                    <Badge className="eco-badge text-xs">Open</Badge>
-                  </Link>
-                </Button>
-              ))}
+              {quickActions.map((action, index) => {
+                const ActionComponent = ({ children }: { children: React.ReactNode }) => {
+                  switch (action.special) {
+                    case 'community':
+                      return <CommunityPopup>{children}</CommunityPopup>;
+                    case 'impact':
+                      return <ImpactPopup>{children}</ImpactPopup>;
+                    case 'coming-soon':
+                      return (
+                        <ComingSoonDialog
+                          title={action.name}
+                          description={`${action.name} feature coming soon!`}
+                          feature={`${action.name.toLowerCase()} functionality`}
+                        >
+                          {children}
+                        </ComingSoonDialog>
+                      );
+                    default:
+                      return <Link to={action.href}>{children}</Link>;
+                  }
+                };
+
+                return (
+                  <ActionComponent key={index}>
+                    <Button
+                      variant="outline"
+                      className="h-auto p-4 flex flex-col gap-2 hover-scale transition-all duration-200 w-full"
+                    >
+                      <action.icon className={`w-6 h-6 ${action.color}`} />
+                      <span className="text-xs font-medium text-center leading-tight">
+                        {action.name}
+                      </span>
+                      <Badge className="eco-badge text-xs">
+                        {action.special ? 'Soon' : 'Open'}
+                      </Badge>
+                    </Button>
+                  </ActionComponent>
+                );
+              })}
             </div>
           </CardContent>
         </Card>

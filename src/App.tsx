@@ -8,7 +8,9 @@ import StudentDashboard from "./pages/StudentDashboard";
 import { Gardens } from "./pages/Gardens";
 import { Profile } from "./pages/Profile";
 import { Shop } from "./pages/Shop";
-import { Goals } from "./pages/Goals";
+import { Challenges } from "./pages/Challenges";
+import { Quiz } from "./pages/Quiz";
+import { PetDetail } from "./pages/PetDetail";
 import { Habits } from "./pages/Habits";
 import NotFound from "./pages/NotFound";
 
@@ -26,7 +28,9 @@ const App = () => (
           <Route path="/gardens" element={<Gardens />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/shop" element={<Shop />} />
-          <Route path="/goals" element={<Goals />} />
+          <Route path="/challenges" element={<Challenges />} />
+          <Route path="/quiz" element={<Quiz />} />
+          <Route path="/pets" element={<PetDetail />} />
           <Route path="/habits" element={<Habits />} />
           {/* Backend features require Supabase integration */}
           <Route path="/community" element={<div className="p-8 text-center">🤝 Community features require Supabase backend integration</div>} />

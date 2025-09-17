@@ -8,7 +8,7 @@ import { Avatar as AvatarType, User, Pet } from '@/types';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useEcoPoints } from '@/hooks/useEcoPoints';
 import { Settings, Star, Trophy, Users, Heart } from 'lucide-react';
-import { AvatarBuilder } from '@/components/AvatarBuilder';
+import { ComingSoonDialog } from '@/components/ComingSoonDialog';
 import { PetCard } from '@/components/PetCard';
 
 const AVATAR_OPTIONS = {
@@ -144,9 +144,8 @@ export const Profile = () => {
       </div>
 
       <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="avatar">Avatar</TabsTrigger>
           <TabsTrigger value="pets">Pets</TabsTrigger>
           <TabsTrigger value="achievements">Achievements</TabsTrigger>
         </TabsList>
@@ -154,19 +153,8 @@ export const Profile = () => {
         <TabsContent value="overview" className="space-y-4">
           <Card className="eco-card">
             <CardHeader className="text-center">
-              <div className="mx-auto mb-4">
-                <Avatar className="h-24 w-24 border-4 border-eco-leaf">
-                  <AvatarFallback 
-                    className="text-2xl"
-                    style={{ backgroundColor: user.avatar.skinTone }}
-                  >
-                    {user.name.slice(0, 2)}
-                  </AvatarFallback>
-                </Avatar>
-              </div>
               <CardTitle className="text-2xl">{user.name}</CardTitle>
               <CardDescription className="flex items-center justify-center gap-4">
-                <Badge className="eco-badge">Level {user.level}</Badge>
                 <Badge variant="outline">🔥 {user.streakDays} day streak</Badge>
                 <Badge variant="secondary">{user.role}</Badge>
               </CardDescription>
@@ -216,23 +204,23 @@ export const Profile = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Star className="h-5 w-5 text-yellow-500" />
-                  Next Level Progress
+                  Progress Tracking
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   <div className="flex justify-between text-sm">
-                    <span>Level {user.level}</span>
-                    <span>Level {user.level + 1}</span>
+                    <span>Total Points</span>
+                    <span>{user.ecoPoints}</span>
                   </div>
                   <div className="w-full bg-muted rounded-full h-3">
                     <div 
                       className="nature-gradient h-3 rounded-full transition-all duration-500"
-                      style={{ width: `${(user.ecoPoints % 100)}%` }}
+                      style={{ width: `${Math.min((user.ecoPoints / 1000) * 100, 100)}%` }}
                     />
                   </div>
                   <div className="text-center text-sm text-muted-foreground">
-                    {100 - (user.ecoPoints % 100)} more points to next level
+                    Keep going to reach 1000 points!
                   </div>
                 </div>
               </CardContent>
@@ -241,72 +229,26 @@ export const Profile = () => {
         </TabsContent>
 
         <TabsContent value="avatar" className="space-y-4">
-          <Card className="eco-card">
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span>Avatar Builder</span>
-                <Button 
-                  variant={editingAvatar ? "default" : "outline"}
-                  onClick={() => setEditingAvatar(!editingAvatar)}
-                >
-                  {editingAvatar ? 'Done' : 'Edit'}
-                </Button>
-              </CardTitle>
-              <CardDescription>Customize your human-like avatar to express your personality!</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="text-center">
-                <Avatar className="h-32 w-32 mx-auto border-4 border-eco-leaf">
-                  <AvatarFallback 
-                    className="text-4xl relative overflow-hidden"
-                    style={{ 
-                      backgroundColor: editingAvatar ? tempAvatar.skinTone : user.avatar.skinTone 
-                    }}
-                  >
-                    {/* Simple human avatar representation */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="relative">
-                        {/* Face */}
-                        <div 
-                          className="w-20 h-24 rounded-full relative"
-                          style={{ backgroundColor: editingAvatar ? tempAvatar.skinTone : user.avatar.skinTone }}
-                        >
-                          {/* Eyes */}
-                          <div className="absolute top-6 left-3 w-2 h-2 rounded-full" 
-                               style={{ backgroundColor: editingAvatar ? tempAvatar.eyeColor : user.avatar.eyeColor }} />
-                          <div className="absolute top-6 right-3 w-2 h-2 rounded-full" 
-                               style={{ backgroundColor: editingAvatar ? tempAvatar.eyeColor : user.avatar.eyeColor }} />
-                          {/* Hair */}
-                          <div 
-                            className="absolute -top-2 left-1 right-1 h-8 rounded-t-full"
-                            style={{ backgroundColor: editingAvatar ? tempAvatar.hairColor : user.avatar.hairColor }}
-                          />
-                          {/* Expression mouth */}
-                          <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 w-3 h-1 bg-white/30 rounded-full" />
-                        </div>
-                      </div>
-                    </div>
-                  </AvatarFallback>
-                </Avatar>
-                <div className="mt-2 text-sm text-muted-foreground">
-                  {editingAvatar ? tempAvatar.expression : user.avatar.expression} • {editingAvatar ? tempAvatar.faceShape : user.avatar.faceShape} face
+          <ComingSoonDialog
+            title="Custom Avatars"
+            description="Create your unique avatar with tons of customization options!"
+            feature="avatar customization with outfits, accessories, and more"
+          >
+            <Card className="eco-card cursor-pointer hover-scale">
+              <CardHeader className="text-center">
+                <div className="mx-auto mb-4 text-6xl animate-bounce-soft">
+                  👤
                 </div>
-              </div>
-
-              {editingAvatar && (
-                <AvatarBuilder 
-                  avatar={tempAvatar}
-                  onChange={setTempAvatar}
-                />
-              )}
-
-              {editingAvatar && (
-                <Button onClick={saveAvatar} className="w-full">
-                  💾 Save Avatar (+10 points)
+                <CardTitle>Avatar Customization</CardTitle>
+                <CardDescription>Click to customize your appearance!</CardDescription>
+              </CardHeader>
+              <CardContent className="text-center">
+                <Button className="w-full" variant="outline">
+                  🎨 Customize Avatar
                 </Button>
-              )}
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </ComingSoonDialog>
         </TabsContent>
 
         <TabsContent value="pets" className="space-y-4">

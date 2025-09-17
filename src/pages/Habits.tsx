@@ -8,38 +8,62 @@ import { useEcoPoints } from '@/hooks/useEcoPoints';
 import { Calendar, Flame, Plus, Check, X } from 'lucide-react';
 import { toast } from 'sonner';
 
-const PRESET_HABITS = [
-  {
-    name: 'Shorter Showers',
-    description: 'Take 5-minute showers to save water',
-    ecoPointsPerDay: 10,
-    category: 'water' as const
-  },
-  {
-    name: 'Lights Off',
-    description: 'Turn off lights when leaving rooms',
-    ecoPointsPerDay: 8,
-    category: 'energy' as const
-  },
-  {
-    name: 'Walk or Bike',
-    description: 'Use eco-friendly transport for short trips',
-    ecoPointsPerDay: 15,
-    category: 'transport' as const
-  },
-  {
-    name: 'Separate Waste',
-    description: 'Properly sort recyclables and compost',
-    ecoPointsPerDay: 12,
-    category: 'waste' as const
-  },
-  {
-    name: 'Learn Something New',
-    description: 'Read about environmental topics',
-    ecoPointsPerDay: 5,
-    category: 'learning' as const
-  }
-];
+  const PRESET_HABITS = [
+    {
+      name: 'Shorter Showers',
+      description: 'Take 5-minute showers to save water',
+      ecoPointsPerDay: 10,
+      category: 'water' as const
+    },
+    {
+      name: 'Lights Off',
+      description: 'Turn off lights when leaving rooms',
+      ecoPointsPerDay: 8,
+      category: 'energy' as const
+    },
+    {
+      name: 'Walk or Bike',
+      description: 'Use eco-friendly transport for short trips',
+      ecoPointsPerDay: 15,
+      category: 'transport' as const
+    },
+    {
+      name: 'Separate Waste',
+      description: 'Properly sort recyclables and compost',
+      ecoPointsPerDay: 12,
+      category: 'waste' as const
+    },
+    {
+      name: 'Learn Something New',
+      description: 'Read about environmental topics',
+      ecoPointsPerDay: 5,
+      category: 'learning' as const
+    },
+    {
+      name: 'Plastic-Free Day',
+      description: 'Avoid single-use plastics for the day',
+      ecoPointsPerDay: 20,
+      category: 'waste' as const
+    },
+    {
+      name: 'Plant Care',
+      description: 'Water and tend to plants',
+      ecoPointsPerDay: 8,
+      category: 'learning' as const
+    },
+    {
+      name: 'Energy Monitoring',
+      description: 'Check and reduce electricity usage',
+      ecoPointsPerDay: 15,
+      category: 'energy' as const
+    },
+    {
+      name: 'Eco Meal Planning',
+      description: 'Plan plant-based meals',
+      ecoPointsPerDay: 12,
+      category: 'learning' as const
+    }
+  ];
 
 const CATEGORY_COLORS = {
   water: 'bg-blue-500',
