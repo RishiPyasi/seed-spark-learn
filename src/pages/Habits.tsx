@@ -7,6 +7,8 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useEcoPoints } from '@/hooks/useEcoPoints';
 import { Calendar, Flame, Plus, Check, X } from 'lucide-react';
 import { toast } from 'sonner';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { HabitHeatmap } from '@/components/HabitHeatmap';
 
   const PRESET_HABITS = [
     {
@@ -190,7 +192,14 @@ export const Habits = () => {
   ).length;
 
   return (
-    <div className="space-y-6">
+    <Tabs defaultValue="habits" className="space-y-6">
+      <TabsList className="grid w-full grid-cols-2">
+        <TabsTrigger value="habits">My Habits</TabsTrigger>
+        <TabsTrigger value="heatmap">Heatmap</TabsTrigger>
+      </TabsList>
+      
+      <TabsContent value="habits">
+        <div className="space-y-6">
       <div className="text-center">
         <h1 className="text-3xl font-bold text-foreground mb-2">📅 Habit Tracker</h1>
         <p className="text-muted-foreground">Build eco-friendly habits with our visual heatmap!</p>
@@ -416,6 +425,12 @@ export const Habits = () => {
           </Button>
         </Card>
       )}
-    </div>
+        </div>
+      </TabsContent>
+      
+      <TabsContent value="heatmap">
+        <HabitHeatmap habits={habits} />
+      </TabsContent>
+    </Tabs>
   );
 };

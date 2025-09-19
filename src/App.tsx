@@ -12,6 +12,9 @@ import { Challenges } from "./pages/Challenges";
 import { Quiz } from "./pages/Quiz";
 import { PetDetail } from "./pages/PetDetail";
 import { Habits } from "./pages/Habits";
+import { Journal } from "./pages/Journal";
+import { TeacherAuth } from "./pages/TeacherAuth";
+import { TeacherDashboard } from "./pages/TeacherDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +35,9 @@ const App = () => (
           <Route path="/quiz" element={<Quiz />} />
           <Route path="/pets" element={<PetDetail />} />
           <Route path="/habits" element={<Habits />} />
+          <Route path="/journal" element={<Journal />} />
+          <Route path="/teacher-auth" element={<TeacherAuth />} />
+          <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
           {/* Backend features require Supabase integration */}
           <Route path="/community" element={<div className="p-8 text-center">🤝 Community features require Supabase backend integration</div>} />
           <Route path="/impact" element={<div className="p-8 text-center">📊 Impact analytics require Supabase backend integration</div>} />

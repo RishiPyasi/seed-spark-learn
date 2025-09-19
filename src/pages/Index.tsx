@@ -75,7 +75,7 @@ const Index = () => {
                 alt="Pet Plant" 
                 className="w-10 h-10 mx-auto mb-1 animate-bounce-soft"
               />
-              <div className="text-sm text-muted-foreground">Your Pet Sprouty</div>
+              <div className="text-sm text-muted-foreground">Your Pet Buddy</div>
             </CardContent>
           </Card>
         </div>

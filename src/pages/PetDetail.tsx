@@ -12,11 +12,14 @@ import petCatImage from '@/assets/pet-cat.png';
 import petPlantImage from '@/assets/pet-plant.png';
 import petDuckImage from '@/assets/pet-duck.png';
 import petHorseImage from '@/assets/pet-horse.png';
+import petTurtleImage from '@/assets/pet-turtle.png';
+import petFishImage from '@/assets/pet-fish.png';
+import petHamsterImage from '@/assets/pet-hamster.png';
 
 interface Pet {
   id: string;
   name: string;
-  type: string;
+  type: 'dog' | 'cat' | 'horse' | 'duck' | 'turtle' | 'fish' | 'hamster' | 'plant';
   level: number;
   happiness: number;
   energy: number;
@@ -25,7 +28,7 @@ interface Pet {
   lastFed: Date;
   lastPlayed: Date;
   skills: string[];
-  personality: string;
+  personality: 'playful' | 'calm' | 'energetic' | 'gentle' | 'wise' | 'peaceful';
 }
 
 const PET_TYPES = {
@@ -34,7 +37,7 @@ const PET_TYPES = {
     emoji: '🐕', 
     image: petDogImage,
     skills: ['Loyalty', 'Energy Boost', 'Companionship'], 
-    personality: 'playful',
+    personality: 'playful' as const,
     description: 'A loyal companion that boosts your energy and motivation!'
   },
   cat: { 
@@ -42,32 +45,56 @@ const PET_TYPES = {
     emoji: '🐱', 
     image: petCatImage,
     skills: ['Curiosity', 'Calm Mind', 'Independence'], 
-    personality: 'calm',
+    personality: 'calm' as const,
     description: 'A wise friend that helps you stay focused and peaceful.'
-  },
-  plant: { 
-    name: 'Plant', 
-    emoji: '🌱', 
-    image: petPlantImage,
-    skills: ['Air Purification', 'Growth Mindset', 'Patience'], 
-    personality: 'peaceful',
-    description: 'A growing companion that purifies your environment.'
-  },
-  duck: { 
-    name: 'Duck', 
-    emoji: '🦆', 
-    image: petDuckImage,
-    skills: ['Swimming', 'Adaptability', 'Joy'], 
-    personality: 'energetic',
-    description: 'A joyful friend that adapts to any situation!'
   },
   horse: { 
     name: 'Horse', 
     emoji: '🐴', 
     image: petHorseImage,
     skills: ['Strength', 'Endurance', 'Freedom'], 
-    personality: 'noble',
+    personality: 'gentle' as const,
     description: 'A majestic companion that gives you strength and freedom.'
+  },
+  duck: { 
+    name: 'Duck', 
+    emoji: '🦆', 
+    image: petDuckImage,
+    skills: ['Swimming', 'Adaptability', 'Joy'], 
+    personality: 'energetic' as const,
+    description: 'A joyful friend that adapts to any situation!'
+  },
+  turtle: { 
+    name: 'Turtle', 
+    emoji: '🐢', 
+    image: petTurtleImage,
+    skills: ['Wisdom', 'Patience', 'Longevity'], 
+    personality: 'wise' as const,
+    description: 'A wise old friend who teaches patience and environmental awareness.'
+  },
+  fish: { 
+    name: 'Fish', 
+    emoji: '🐠', 
+    image: petFishImage,
+    skills: ['Water Wisdom', 'Serenity', 'Flow'], 
+    personality: 'peaceful' as const,
+    description: 'A peaceful aquatic friend that promotes water conservation.'
+  },
+  hamster: { 
+    name: 'Hamster', 
+    emoji: '🐹', 
+    image: petHamsterImage,
+    skills: ['Energy', 'Resourcefulness', 'Storage'], 
+    personality: 'energetic' as const,
+    description: 'An energetic little friend who teaches about resource conservation.'
+  },
+  plant: { 
+    name: 'Plant', 
+    emoji: '🌱', 
+    image: petPlantImage,
+    skills: ['Air Purification', 'Growth Mindset', 'Patience'], 
+    personality: 'peaceful' as const,
+    description: 'A growing companion that purifies your environment.'
   }
 };
 
@@ -119,7 +146,7 @@ export const PetDetail = () => {
     const newPet: Pet = {
       id: Date.now().toString(),
       name: newPetName,
-      type: selectedPetType,
+      type: selectedPetType as 'dog' | 'cat' | 'horse' | 'duck' | 'turtle' | 'fish' | 'hamster' | 'plant',
       level: 1,
       happiness: 50,
       energy: 100,

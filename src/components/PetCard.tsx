@@ -8,6 +8,9 @@ import petDogImage from '@/assets/pet-dog.png';
 import petCatImage from '@/assets/pet-cat.png';
 import petHorseImage from '@/assets/pet-horse.png';
 import petDuckImage from '@/assets/pet-duck.png';
+import petTurtleImage from '@/assets/pet-turtle.png';
+import petFishImage from '@/assets/pet-fish.png';
+import petHamsterImage from '@/assets/pet-hamster.png';
 
 interface PetCardProps {
   pet: Pet;
@@ -20,6 +23,9 @@ const PET_IMAGES = {
   cat: petCatImage,
   horse: petHorseImage,
   duck: petDuckImage,
+  turtle: petTurtleImage,
+  fish: petFishImage,
+  hamster: petHamsterImage,
   cow: petDogImage, // fallback
   rabbit: petCatImage // fallback
 };
@@ -29,6 +35,9 @@ const PET_TYPES = {
   cat: { name: 'Cat', emoji: '🐱' },
   horse: { name: 'Horse', emoji: '🐴' },
   duck: { name: 'Duck', emoji: '🦆' },
+  turtle: { name: 'Turtle', emoji: '🐢' },
+  fish: { name: 'Fish', emoji: '🐠' },
+  hamster: { name: 'Hamster', emoji: '🐹' },
   cow: { name: 'Cow', emoji: '🐄' },
   rabbit: { name: 'Rabbit', emoji: '🐰' }
 };

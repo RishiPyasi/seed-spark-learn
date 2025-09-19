@@ -44,7 +44,7 @@ export interface Plant {
 export interface Pet {
   id: string;
   name: string;
-  type: 'dog' | 'cat' | 'horse' | 'duck' | 'cow' | 'rabbit';
+  type: 'dog' | 'cat' | 'horse' | 'duck' | 'cow' | 'rabbit' | 'turtle' | 'fish' | 'hamster';
   level: number;
   happiness: number; // 0-100
   energy: number; // 0-100
@@ -53,7 +53,7 @@ export interface Pet {
   lastFed: Date;
   lastPlayed: Date;
   skills: string[];
-  personality: 'playful' | 'calm' | 'energetic' | 'gentle';
+  personality: 'playful' | 'calm' | 'energetic' | 'gentle' | 'wise' | 'peaceful';
 }
 
 export interface ShopItem {
