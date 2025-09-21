@@ -15,7 +15,11 @@ import { Habits } from "./pages/Habits";
 import { Journal } from "./pages/Journal";
 import { TeacherAuth } from "./pages/TeacherAuth";
 import { TeacherDashboard } from "./pages/TeacherDashboard";
+import { Lessons } from "./pages/Lessons";
+import { Meditation } from "./pages/Meditation";
+import { Pomodoro } from "./pages/Pomodoro";
 import NotFound from "./pages/NotFound";
+import { VerdantChatbot } from "./components/VerdantChatbot";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +28,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <VerdantChatbot />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
@@ -36,6 +41,9 @@ const App = () => (
           <Route path="/pets" element={<PetDetail />} />
           <Route path="/habits" element={<Habits />} />
           <Route path="/journal" element={<Journal />} />
+          <Route path="/lessons" element={<Lessons />} />
+          <Route path="/meditation" element={<Meditation />} />
+          <Route path="/pomodoro" element={<Pomodoro />} />
           <Route path="/teacher-auth" element={<TeacherAuth />} />
           <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
           {/* Backend features require Supabase integration */}
