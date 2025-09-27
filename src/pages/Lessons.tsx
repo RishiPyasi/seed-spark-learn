@@ -8,7 +8,7 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { 
   BookOpen, Play, CheckCircle, Clock, Star, 
   Award, Users, Leaf, Lightbulb, Droplets, 
-  Recycle, ArrowRight, Lock
+  Recycle, ArrowRight, Lock, ArrowLeft
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -182,13 +182,13 @@ const lessons: Lesson[] = [
 ];
 
 export const Lessons = () => {
+  const navigate = useNavigate();
   const [completedLessons, setCompletedLessons] = useLocalStorage<string[]>('completed-lessons', []);
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
   const [currentSection, setCurrentSection] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showAnswer, setShowAnswer] = useState(false);
   const [ecoPoints, setEcoPoints] = useLocalStorage('eco-points', 100);
-  const navigate = useNavigate();
 
   const getLessonsWithProgress = () => {
     return lessons.map(lesson => ({
@@ -388,6 +388,14 @@ export const Lessons = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-eco-leaf/5 to-eco-growth/5 p-6">
       <div className="max-w-6xl mx-auto space-y-6">
+        <Button 
+          variant="ghost" 
+          onClick={() => navigate('/dashboard')}
+          className="mb-4"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Back to Dashboard
+        </Button>
         {/* Header */}
         <div className="text-center">
           <h1 className="text-4xl font-bold text-foreground mb-4">

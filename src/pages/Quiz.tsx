@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { useEcoPoints } from '@/hooks/useEcoPoints';
-import { CheckCircle, XCircle, Brain, Trophy, Zap } from 'lucide-react';
+import { CheckCircle, XCircle, Brain, Trophy, Zap, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
 interface QuizQuestion {
@@ -60,6 +61,7 @@ const QUIZ_QUESTIONS: QuizQuestion[] = [
 ];
 
 export const Quiz = () => {
+  const navigate = useNavigate();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
@@ -143,6 +145,14 @@ export const Quiz = () => {
     
     return (
       <div className="space-y-6">
+        <Button 
+          variant="ghost" 
+          onClick={() => navigate('/dashboard')}
+          className="mb-4"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Back to Dashboard
+        </Button>
         <Card className="eco-card text-center">
           <CardHeader>
             <div className="mx-auto mb-4 text-6xl animate-bounce-soft">
@@ -187,6 +197,14 @@ export const Quiz = () => {
 
   return (
     <div className="space-y-6">
+      <Button 
+        variant="ghost" 
+        onClick={() => navigate('/dashboard')}
+        className="mb-4"
+      >
+        <ArrowLeft className="w-4 h-4 mr-2" />
+        Back to Dashboard
+      </Button>
       <div className="text-center">
         <h1 className="text-3xl font-bold text-foreground mb-2">🧠 Environmental Quiz</h1>
         <p className="text-muted-foreground">Test your knowledge and earn eco-points!</p>

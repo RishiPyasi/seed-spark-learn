@@ -13,7 +13,7 @@ import {
   Trophy, Star, Zap, Heart, Sprout, Users, School, 
   Target, BookOpen, ShoppingBag, FileText, MessageCircle, 
   Calculator, Award, Thermometer, Gamepad2, Calendar,
-  TrendingUp, Crown, Leaf
+  TrendingUp, Crown, Leaf, Clock
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import petDogImage from '@/assets/pet-dog.png';
@@ -103,13 +103,15 @@ const StudentDashboard = () => {
     { name: 'Challenges', icon: Target, color: 'text-eco-growth', href: '/challenges', special: false },
     { name: 'Quizzes', icon: BookOpen, color: 'text-eco-leaf', href: '/quiz', special: false },
     { name: 'Shop', icon: ShoppingBag, color: 'text-eco-earth', href: '/shop', special: false },
-    { name: 'Journal', icon: FileText, color: 'text-eco-growth', href: '/journal', special: 'coming-soon' },
+    { name: 'Journal', icon: FileText, color: 'text-eco-growth', href: '/journal', special: false },
     { name: 'Discussion', icon: MessageCircle, color: 'text-eco-leaf', href: '/discussion', special: 'community' },
     { name: 'Habits', icon: Target, color: 'text-eco-earth', href: '/habits', special: false },
-    { name: 'Lessons', icon: BookOpen, color: 'text-eco-growth', href: '/lessons', special: 'coming-soon' },
+    { name: 'Lessons', icon: BookOpen, color: 'text-eco-growth', href: '/lessons', special: false },
     { name: 'Impact Calculator', icon: Calculator, color: 'text-eco-leaf', href: '/impact', special: 'impact' },
-    { name: 'Badges', icon: Award, color: 'text-eco-earth', href: '/badges', special: 'coming-soon' },
-    { name: 'Heatmap', icon: Thermometer, color: 'text-eco-growth', href: '/heatmap', special: 'coming-soon' },
+    { name: 'Badges', icon: Award, color: 'text-eco-earth', href: '/habits', special: false },
+    { name: 'Heatmap', icon: Thermometer, color: 'text-eco-growth', href: '/habits', special: false },
+    { name: 'Meditation', icon: Leaf, color: 'text-eco-leaf', href: '/meditation', special: false },
+    { name: 'Pomodoro', icon: Clock, color: 'text-eco-earth', href: '/pomodoro', special: false },
     { name: 'Spin Wheel', icon: Gamepad2, color: 'text-eco-leaf', href: '/spin', special: 'coming-soon' },
     { name: 'Events', icon: Calendar, color: 'text-eco-earth', href: '/events', special: 'coming-soon' }
   ];

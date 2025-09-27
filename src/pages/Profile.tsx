@@ -33,7 +33,7 @@ const PET_TYPES = {
   rabbit: { name: 'Rabbit', emoji: '🐰', skills: ['Speed', 'Agility'], personality: 'energetic' }
 };
 
-const ACHIEVEMENTS = [
+const BADGES = [
   { id: 'first-plant', name: 'Green Thumb', description: 'Planted your first seed', icon: '🌱' },
   { id: 'water-master', name: 'Water Guardian', description: 'Watered plants 50 times', icon: '💧' },
   { id: 'eco-warrior', name: 'Eco Warrior', description: 'Earned 1000 eco-points', icon: '🌍' },
@@ -89,8 +89,8 @@ export const Profile = () => {
   const [tempAvatar, setTempAvatar] = useState<AvatarType>(user.avatar);
   const { ecoPoints, addPoints } = useEcoPoints(user.ecoPoints);
 
-  const unlockedAchievements = ACHIEVEMENTS.filter(achievement => {
-    switch (achievement.id) {
+  const unlockedBadges = BADGES.filter(badge => {
+    switch (badge.id) {
       case 'first-plant': return user.ecoPoints > 0;
       case 'water-master': return user.ecoPoints > 200;
       case 'eco-warrior': return user.ecoPoints >= 1000;
@@ -147,7 +147,7 @@ export const Profile = () => {
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="pets">Pets</TabsTrigger>
-          <TabsTrigger value="achievements">Achievements</TabsTrigger>
+          <TabsTrigger value="badges">Badges</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
@@ -166,8 +166,8 @@ export const Profile = () => {
                   <div className="text-sm text-muted-foreground">Eco-Points</div>
                 </div>
                 <div className="space-y-1">
-                  <div className="text-2xl font-bold text-eco-growth">{unlockedAchievements.length}</div>
-                  <div className="text-sm text-muted-foreground">Achievements</div>
+                  <div className="text-2xl font-bold text-eco-growth">{unlockedBadges.length}</div>
+                  <div className="text-sm text-muted-foreground">Badges</div>
                 </div>
                 <div className="space-y-1">
                   <div className="text-2xl font-bold text-primary">{pets.length}</div>
@@ -182,17 +182,17 @@ export const Profile = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Trophy className="h-5 w-5 text-yellow-500" />
-                  Recent Achievements
+                  Recent Badges
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  {unlockedAchievements.slice(0, 3).map(achievement => (
-                    <div key={achievement.id} className="flex items-center gap-3 p-2 rounded-lg bg-eco-leaf-light">
-                      <span className="text-2xl">{achievement.icon}</span>
+                  {unlockedBadges.slice(0, 3).map(badge => (
+                    <div key={badge.id} className="flex items-center gap-3 p-2 rounded-lg bg-eco-leaf-light">
+                      <span className="text-2xl">{badge.icon}</span>
                       <div>
-                        <div className="font-medium text-sm">{achievement.name}</div>
-                        <div className="text-xs text-muted-foreground">{achievement.description}</div>
+                        <div className="font-medium text-sm">{badge.name}</div>
+                        <div className="text-xs text-muted-foreground">{badge.description}</div>
                       </div>
                     </div>
                   ))}
@@ -282,19 +282,19 @@ export const Profile = () => {
           )}
         </TabsContent>
 
-        <TabsContent value="achievements" className="space-y-4">
+        <TabsContent value="badges" className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {ACHIEVEMENTS.map((achievement) => {
-              const isUnlocked = unlockedAchievements.some(a => a.id === achievement.id);
+            {BADGES.map((badge) => {
+              const isUnlocked = unlockedBadges.some(a => a.id === badge.id);
               return (
                 <Card 
-                  key={achievement.id} 
+                  key={badge.id} 
                   className={`eco-card ${isUnlocked ? 'border-eco-leaf' : 'opacity-50'}`}
                 >
                   <CardContent className="p-4 text-center">
-                    <div className="text-4xl mb-2">{achievement.icon}</div>
-                    <h3 className="font-semibold mb-1">{achievement.name}</h3>
-                    <p className="text-sm text-muted-foreground mb-2">{achievement.description}</p>
+                    <div className="text-4xl mb-2">{badge.icon}</div>
+                    <h3 className="font-semibold mb-1">{badge.name}</h3>
+                    <p className="text-sm text-muted-foreground mb-2">{badge.description}</p>
                     {isUnlocked && (
                       <Badge className="eco-badge">
                         <Star className="h-3 w-3 mr-1" />

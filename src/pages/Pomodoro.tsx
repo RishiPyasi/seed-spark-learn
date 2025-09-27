@@ -9,8 +9,9 @@ import { PushNotificationService } from '@/utils/pushNotifications';
 import { 
   Play, Pause, RotateCcw, Settings, BookOpen, 
   Coffee, Target, TrendingUp, Calendar,
-  CheckCircle, Clock, Zap, Award
+  CheckCircle, Clock, Zap, Award, ArrowLeft
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface PomodoroSession {
   id: string;
@@ -29,6 +30,7 @@ interface PomodoroStats {
 }
 
 export const Pomodoro = () => {
+  const navigate = useNavigate();
   // Timer settings (in minutes)
   const [focusTime, setFocusTime] = useLocalStorage('pomodoro-focus-time', 25);
   const [shortBreakTime, setShortBreakTime] = useLocalStorage('pomodoro-short-break', 5);
@@ -250,6 +252,14 @@ export const Pomodoro = () => {
   return (
     <div className={`min-h-screen bg-gradient-to-br ${typeConfig.bgColor} p-6`}>
       <div className="max-w-4xl mx-auto space-y-6">
+        <Button 
+          variant="ghost" 
+          onClick={() => navigate('/dashboard')}
+          className="mb-4"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Back to Dashboard
+        </Button>
         {/* Header */}
         <div className="text-center">
           <h1 className="text-4xl font-bold text-foreground mb-4">

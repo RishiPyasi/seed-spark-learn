@@ -7,8 +7,9 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { 
   Play, Pause, RotateCcw, Volume2, VolumeX, 
   Leaf, Waves, Bird, Zap, Timer, Mountain,
-  Moon, Sun, Cloud, TreePine
+  Moon, Sun, Cloud, TreePine, ArrowLeft
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface MeditationSession {
   id: string;
@@ -93,6 +94,7 @@ const meditationSessions: MeditationSession[] = [
 ];
 
 export const Meditation = () => {
+  const navigate = useNavigate();
   const [currentSession, setCurrentSession] = useState<MeditationSession | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -359,6 +361,14 @@ export const Meditation = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-eco-leaf/5 to-eco-water/5 p-6">
       <div className="max-w-6xl mx-auto space-y-6">
+        <Button 
+          variant="ghost" 
+          onClick={() => navigate('/dashboard')}
+          className="mb-4"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Back to Dashboard
+        </Button>
         {/* Header */}
         <div className="text-center">
           <h1 className="text-4xl font-bold text-foreground mb-4">
