@@ -108,7 +108,7 @@ const StudentDashboard = () => {
     { name: 'Habits', icon: Target, color: 'text-eco-earth', href: '/habits', special: false },
     { name: 'Lessons', icon: BookOpen, color: 'text-eco-growth', href: '/lessons', special: false },
     { name: 'Impact Calculator', icon: Calculator, color: 'text-eco-leaf', href: '/impact', special: 'impact' },
-    { name: 'Badges', icon: Award, color: 'text-eco-earth', href: '/habits', special: false },
+    { name: 'Badges', icon: Award, color: 'text-eco-earth', href: '/profile', special: false },
     { name: 'Heatmap', icon: Thermometer, color: 'text-eco-growth', href: '/habits', special: false },
     { name: 'Meditation', icon: Leaf, color: 'text-eco-leaf', href: '/meditation', special: false },
     { name: 'Pomodoro', icon: Clock, color: 'text-eco-earth', href: '/pomodoro', special: false },
@@ -430,6 +430,34 @@ const StudentDashboard = () => {
             <Button variant="outline" className="w-full mt-4" asChild>
               <Link to="/leaderboard">View Full Leaderboard</Link>
             </Button>
+          </CardContent>
+        </Card>
+
+        {/* Teacher Tools Beta Section */}
+        <Card className="eco-card border-dashed border-2 border-eco-leaf/30">
+          <CardContent className="p-6 text-center">
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-lg font-semibold text-eco-leaf mb-2">🍎 Teacher Tools - Beta Trial</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Access advanced teaching features and class management tools
+                </p>
+              </div>
+              <div className="flex gap-3 justify-center">
+                <Button variant="outline" asChild className="flex-1 max-w-48">
+                  <Link to="/teacher-auth">
+                    <School className="w-4 h-4 mr-2" />
+                    Teacher Login
+                  </Link>
+                </Button>
+                <Button variant="outline" asChild className="flex-1 max-w-48">
+                  <Link to="/teacher-dashboard">
+                    <TrendingUp className="w-4 h-4 mr-2" />
+                    Teacher Dashboard
+                  </Link>
+                </Button>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
