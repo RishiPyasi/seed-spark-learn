@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Layout } from '@/components/Layout';
+import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/AppSidebar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -148,9 +149,12 @@ const StudentDashboard = () => {
   };
 
   return (
-    <Layout currentUser={{ name: user.name, ecoPoints, level: user.level }}>
-      <div className="space-y-6">
-        {/* Environmental Fact Banner */}
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full">
+        <AppSidebar />
+        <SidebarInset className="flex-1">
+          <div className="p-6 space-y-6">
+            {/* Environmental Fact Banner */}
         <Card className="eco-card bg-gradient-to-r from-eco-leaf/10 to-eco-growth/10 border-eco-growth">
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
@@ -460,8 +464,10 @@ const StudentDashboard = () => {
             </div>
           </CardContent>
         </Card>
+          </div>
+        </SidebarInset>
       </div>
-    </Layout>
+    </SidebarProvider>
   );
 };
 
